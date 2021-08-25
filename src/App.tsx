@@ -20,6 +20,10 @@ const App = (): JSX.Element => {
       </div>
       <div>
         <h2>Variables</h2>
+        <p>
+          Truth table row count (2<sup>{variables.length}</sup> ={" "}
+          {Math.pow(2, variables.length)})
+        </p>
         <code>{JSON.stringify(variables, null, 2)}</code>
       </div>
     </div>
