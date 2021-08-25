@@ -1,26 +1,20 @@
 /* eslint-disable no-new-func */
 import { useCallback, useEffect, useState } from "react";
 import { getEveryScenario } from "./getEveryScenario";
+import useCodeExecution from "./useCodeExecution";
 
 const useVariablesFromInput = (input: string): string[] => {
   const [variables, setVariables] = useState<string[]>([]);
+  const codeExecution = useCodeExecution(input);
   const executeCodeWithEveryCombinationOfVariables = useCallback(
     (variables: string[]) => {
       if (variables.length === 0) {
-        const codeToExecute = `"use strict";\n${input}`;
-        console.log("codeToExecute", codeToExecute);
-        new Function(codeToExecute)();
+        codeExecution([]);
       }
       const scenarios = getEveryScenario(variables);
-      scenarios.forEach((scenario) => {
-        const codeToExecute = `"use strict";\n${scenario
-          .map(({ name, value }) => `let ${name} = ${value};`)
-          .join("\n")}${input}`;
-        console.log("codeToExecute", codeToExecute);
-        new Function(codeToExecute)();
-      });
+      scenarios.forEach(codeExecution);
     },
-    [input]
+    [codeExecution]
   );
   const findAllVariables: (variables?: string[]) => string[] = useCallback(
     (variables: string[] = []) => {

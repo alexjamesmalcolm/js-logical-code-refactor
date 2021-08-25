@@ -1,0 +1,10 @@
+.table table,
+.table td {
+  border: 1px solid #333;
+}
+
+.table thead,
+.table tfoot {
+  background-color: #333;
+  color: #fff;
+}
