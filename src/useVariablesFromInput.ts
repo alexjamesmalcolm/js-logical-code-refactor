@@ -22,8 +22,11 @@ const useVariablesFromInput = (input: string): string[] => {
       try {
         executeCodeWithEveryCombinationOfVariables(variables);
         return variables;
-      } catch (error) {
-        if (error.message.includes(" is not defined")) {
+      } catch (error: unknown) {
+        if (
+          error instanceof Error &&
+          error.message.includes(" is not defined")
+        ) {
           const variableName = error.message.split(" is not defined")[0];
           return findAllVariables([...variables, variableName]);
         } else {
